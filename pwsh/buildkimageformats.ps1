@@ -160,7 +160,7 @@ if ($IsWindows) {
     foreach ($file in $files) {
         $name = $file.Name
         if ($name -like 'q*.dll') {
-            cp $file.FullName $prefix_out_if
+            mv $file.FullName $prefix_out_if
         }
         if (-not $name -in $kimgDeps) {
             Write-Host "Deleting $name"
