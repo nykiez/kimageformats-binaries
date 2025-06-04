@@ -153,13 +153,16 @@ if ($IsLinux) {
 if ($IsWindows) {
     Write-Host "`nDetecting plugin dependencies..."
     $kimgDeps = & "$env:GITHUB_WORKSPACE/pwsh/scankimgdeps.ps1" $prefix_out
-
+    $prefix_out_if = $prefix_out/imageformats
+    mkdir -p $prefix_out_if
     # Remove unnecessary files
     $files = Get-ChildItem $prefix_out
     foreach ($file in $files) {
         $name = $file.Name
-        $found = $name -like 'kimg_*.dll' -or $name -in $kimgDeps
-        if (-not $found) {
+        if ($name -like 'q*.dll') {
+            cp $file.FullName $prefix_out_if
+        }
+        if (-not $name -in $kimgDeps) {
             Write-Host "Deleting $name"
             Remove-Item -Path $file.FullName
         }

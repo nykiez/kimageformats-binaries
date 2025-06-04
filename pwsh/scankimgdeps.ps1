@@ -49,8 +49,8 @@ function GetNestedDeps($dllPath) {
 
 $allDeps = [System.Collections.Generic.HashSet[string]]::new()
 
-# Loop through DLL files starting with "kimg_" in the specified directory in alphabetical order
-Get-ChildItem -Path $dir -Filter "kimg_*.dll" |
+# Loop through DLL files starting with "q" in the specified directory in alphabetical order
+Get-ChildItem -Path $dir -Filter "q*.dll" |
     Sort-Object Name |
     ForEach-Object {
         $dllName = $_.Name
