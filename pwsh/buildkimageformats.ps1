@@ -153,7 +153,7 @@ if ($IsLinux) {
 if ($IsWindows) {
     Write-Host "`nDetecting plugin dependencies..."
     $kimgDeps = & "$env:GITHUB_WORKSPACE/pwsh/scankimgdeps.ps1" $prefix_out
-    $prefix_out_if = $prefix_out/imageformats
+    $prefix_out_if = "$prefix_out/imageformats"
     mkdir -p $prefix_out_if
     # Remove unnecessary files
     $files = Get-ChildItem $prefix_out
