@@ -20,9 +20,10 @@ git checkout $kfGitRef
 
 # Patch CMakeLists to work with vcpkg's libraw, bypassing KImageFormats' FindLibRaw.cmake
 # module. The patch also specifies the thread-safe version of libraw.
-patch CMakeLists.txt "../util/kimageformats$kfMajorVer-find-libraw-vcpkg.patch"
-rm "cmake/find-modules/FindLibRaw.cmake"
+# patch CMakeLists.txt "../util/kimageformats$kfMajorVer-find-libraw-vcpkg.patch"
+# rm "cmake/find-modules/FindLibRaw.cmake"
 
+patch src/imageformats/CMakeLists.txt "../util/kimageformats5-change-names.patch"
 
 # dependencies
 if ($IsWindows) {
