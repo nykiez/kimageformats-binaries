@@ -63,5 +63,5 @@ jobs:
         if: github.ref == 'refs/heads/master'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: 'cont'
+          tag_name: 'debug'
           files: kimageformats-*.zip
