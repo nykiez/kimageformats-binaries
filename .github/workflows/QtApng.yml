@@ -1,10 +1,10 @@
 name: Build QtApng
 on:
   push:
-    branches: [master]
+    branches: [my]
   workflow_dispatch:
   pull_request:
-    branches: [master]
+    branches: [my]
 
 jobs:
   build:
@@ -12,24 +12,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: ubuntu-22.04
-            vers: '5.15.2'
-          - os: macos-13
-            vers: '5.15.2'
           - os: windows-2022
             vers: '5.15.2'
             arch: 'win32_msvc2019'
             buildArch: 'X86'
           - os: windows-2022
-            vers: '6.8.3'
-            arch: 'win64_msvc2022_64'
-          - os: windows-2022
-            vers: '6.8.3'
-            arch: 'win64_msvc2022_arm64_cross_compiled'
-            buildArch: 'Arm64'
-          - os: macos-14
-            vers: '6.8.3'
-            buildArch: 'Universal'
+            vers: '5.15.2'
+            arch: 'win64_msvc2019_64'
 
     steps:
       - uses: actions/checkout@v4
@@ -47,14 +36,14 @@ jobs:
           buildArch: ${{ matrix.buildArch }}
 
       - name: 'Upload Artifact'
-        if: github.ref != 'refs/heads/master'
+        if: github.ref != 'refs/heads/my'
         uses: actions/upload-artifact@v4
         with:
           name: qtapng-${{ matrix.os }}-${{ matrix.vers }}${{ matrix.arch && format('-{0}', matrix.arch) || '' }}
           path: QtApng/output
 
       - name: 'Zip Artifact'
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/my'
         uses: thedoctor0/zip-release@0.7.1
         with:
           type: 'zip'
@@ -62,8 +51,8 @@ jobs:
           filename: "qtapng-${{ matrix.os }}-${{ matrix.vers }}${{ matrix.arch && format('-{0}', matrix.arch) || '' }}.zip"
 
       - name: 'Upload to continous release'
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/my'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: 'cont'
+          tag_name: 'my'
           files:  qtapng-*.zip
