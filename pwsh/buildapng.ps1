@@ -36,11 +36,11 @@ $argQt6 = $qtVersion.Major -ne 6 ? '-DAPNG_QT6=OFF' : $null
 $argDeviceArchs = $IsMacOS -and $env:buildArch -eq 'Universal' ? '-DCMAKE_OSX_ARCHITECTURES=x86_64' : $null
 
 # Build
-cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release $argQt6 $argDeviceArchs
+cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Debug $argQt6 $argDeviceArchs
 ninja -C build
 
 if ($IsMacOS -and $env:buildArch -eq 'Universal') {
-    cmake -B build_arm64 -G Ninja -DCMAKE_BUILD_TYPE=Release $argQt6 -DCMAKE_OSX_ARCHITECTURES=arm64
+    cmake -B build_arm64 -G Ninja -DCMAKE_BUILD_TYPE=Debug $argQt6 -DCMAKE_OSX_ARCHITECTURES=arm64
     ninja -C build_arm64
 }
 

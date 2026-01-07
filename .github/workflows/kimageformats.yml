@@ -1,10 +1,10 @@
 name: Build KImageFormats
 on:
   push:
-    branches: [my]
+    branches: [debug]
   workflow_dispatch:
   pull_request:
-    branches: [my]
+    branches: [debug]
 
 env:
   VCPKG_BINARY_SOURCES: 'clear;default,readwrite'
@@ -45,14 +45,14 @@ jobs:
           buildArch: ${{ matrix.buildArch }}
 
       - name: 'Upload Artifact'
-        if: github.ref != 'refs/heads/my'
+        if: github.ref != 'refs/heads/debug'
         uses: actions/upload-artifact@v4
         with:
           name: kimageformats-${{ matrix.os }}-${{ matrix.vers }}${{ matrix.arch && format('-{0}', matrix.arch) || '' }}
           path: kimageformats/output
 
       - name: 'Zip Artifact'
-        if: github.ref == 'refs/heads/my'
+        if: github.ref == 'refs/heads/debug'
         uses: thedoctor0/zip-release@0.7.1
         with:
           type: 'zip'
@@ -60,8 +60,8 @@ jobs:
           filename: "kimageformats-${{ matrix.os }}-${{ matrix.vers }}${{ matrix.arch && format('-{0}', matrix.arch) || '' }}.zip"
 
       - name: 'Upload to continous release'
-        if: github.ref == 'refs/heads/my'
+        if: github.ref == 'refs/heads/debug'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: 'my'
+          tag_name: 'debug'
           files: kimageformats-*.zip
